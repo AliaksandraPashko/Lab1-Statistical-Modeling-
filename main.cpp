@@ -23,7 +23,7 @@ void maklaren_marsale(int K, std::vector<double> &a) {
     std::vector<double> b(arraySize + K, 0);
     std::vector<double> c(arraySize + K, 0);
     mkm_method(29791, 29791, b, arraySize + K);
-    mkm_method(29791, 29791, c, arraySize + K);
+    mkm_method(32771, 32771, c, arraySize + K);
 
     std::vector<double> V(b);
     V.resize(K);
@@ -45,40 +45,29 @@ void hi_square(std::vector<double> &a) {
 
     double hi = 0;
 
-    for (int i = 0; i < 10; ++i) {
-        hi += std::pow(counter[i] - arraySize * 0.1, 2) / (arraySize * 0.1);
+    for (auto item : counter) {
+        hi += std::pow(item - arraySize * 0.1, 2) / (arraySize * 0.1);
     }
 
-    //  std::copy(counter.begin(), counter.end(), std::ostream_iterator<double>(std::cout, "\n"));
+    std::cout << "hi: " << hi << std::endl;
 }
 
-std::map <double,int> emprical_function(std::vector<double> &a)
-{
-    std::map <double, int> sequency;
-    for(int i = 0 ; i < arraySize ; ++i)
-    {
-        sequency.insert(std::pair<double,int>(a[i], i));
-    }
-    return sequency;
-}
 
 void find_max_difference(std::vector<double> &a)
 {
-    std::map <double, int> sequency = emprical_function(a);
-
     double max  = 0;
     double Dn = 0;
 
-    for (std::map<double,int>::iterator it=sequency.begin(); it != sequency.end(); ++it)
+    for (int i = 0; i < arraySize; ++i)
     {
-        Dn = std::abs(it->first - (it->second)*0.001);
+        Dn = std::abs(a[i] - i*0.001);
         if (Dn > max)
         {
             max = Dn;
         }
     }
 
-    std::cout << std::sqrt(1000)*max;
+    std::cout << "Dn*sqrt(n):" <<std::sqrt(1000)*max << std::endl;
 }
 
 void Kolmogorov(std::vector<double> &a)
@@ -92,17 +81,16 @@ int main() {
     std::vector<double> a(arraySize, 0);
     std::vector<double> b(arraySize, 0);
 
-    mkm_method(29791, 29791, a, arraySize);
+   // mkm_method(29791, 29791, a, arraySize);
     mkm_method(29791, 29791, b, arraySize);
 
+    maklaren_marsale(128, a);
+
     hi_square(a);
-    hi_square(b); 
+    hi_square(b);
 
     Kolmogorov(a);
-
-
-
-    maklaren_marsale(128, a);
+    Kolmogorov(b);
 
 
 
